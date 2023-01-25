@@ -1,2 +1,7 @@
 node_modules
 dist
+private.key
+public.key
+
+configs/tokens.enc.yaml
+configs/secret.enc.yaml

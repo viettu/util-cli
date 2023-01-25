@@ -8,11 +8,11 @@ import { IocContainer } from './ioc-container';
     program.version('0.0.1');
 
     const iocContainer = new IocContainer();
-    iocContainer.availableCommands.forEach(cmd => cmd.registerCommand(program));
+    iocContainer.availableCommands.forEach(cmd => {
+        cmd.registerCommand(program)
+    });
     
-    program.action(() => {
-        console.log('AAA');
-    })
+    // program.action(() => {})
 
     program.parseAsync(process.argv);
 })();

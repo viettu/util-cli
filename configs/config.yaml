@@ -1,0 +1,12 @@
+logging:
+    levels:
+        - info
+        - debug
+        - success
+        - warn
+        - error
+password:
+    hashIterations: 27500
+    hashLength: 64
+    hashAlgorithm: sha256
+    saltLength: 16

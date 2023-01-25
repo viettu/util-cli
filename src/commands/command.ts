@@ -10,12 +10,15 @@ export abstract class BaseCommand<T> {
         command.action(async (cmdObj: T) => {
             try {
                 return await this.execute(cmdObj);
-                // console.log(`Command ${this.commandName} is end.`);
             } catch(err) {
                 console.log(`${err}`);
                 process.exit(1);
             }
         });
+    }
+
+    get name(): string {
+        return this.commandName;
     }
 
     /**

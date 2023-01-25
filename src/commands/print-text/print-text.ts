@@ -16,7 +16,7 @@ export class PrintTextCommand extends BaseCommand<PrintTextParams> {
     }
 
     async execute(params: PrintTextParams): Promise<void> {
-        this.logger.log(`${params.text}`);
+        this.logger.debug(`${params.text}`);
     }
 }
 

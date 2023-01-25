@@ -8,8 +8,10 @@
   },
   "scripts": {
     "start": "ts-node src/index.ts",
+    "tsc": "tsc --build",
     "build": "ncc build src/index.ts -o dist/util-cli/ && cp package.json dist/util-cli/",
     "cmd:print-text": "node dist/util-cli print-text --text=TEST",
+    "cmd:encrypt-config": "node dist/util-cli config --action=encrypt",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix"
   },
@@ -20,9 +22,19 @@
   "author": "Viet Tu",
   "license": "ISC",
   "dependencies": {
-    "jsonfile": "^6.1.0"
+    "@types/axios": "^0.14.0",
+    "axios": "^1.2.3",
+    "chalk": "^4.1.2",
+    "clipboardy": "^2.3.0",
+    "execa": "^5.1.1",
+    "js-yaml": "^4.1.0",
+    "jsonfile": "^6.1.0",
+    "lodash": "^4.17.21",
+    "openpgp": "^5.5.0"
   },
   "devDependencies": {
+    "@types/js-yaml": "^4.0.5",
+    "@types/lodash": "^4.14.191",
     "@types/node": "^14.18.11",
     "@typescript-eslint/eslint-plugin": "^5.11.0",
     "@typescript-eslint/parser": "^5.11.0",
