@@ -1,16 +1,16 @@
 import 'reflect-metadata';
-import { Container } from 'inversify';
-import { AvailableCommands } from './commands/available-commands';
-import { BaseCommand } from './commands/command';
+import {Container} from 'inversify';
+import {AvailableCommands} from './commands/available-commands';
+import {BaseCommand} from './commands/command';
 
 export class IocContainer {
-    private container: Container;
+  private container: Container;
 
-    constructor() {
-        this.container = new Container({ autoBindInjectable: true, defaultScope: 'Singleton' });
-    }
+  constructor() {
+    this.container = new Container({autoBindInjectable: true, defaultScope: 'Singleton'});
+  }
 
-    get availableCommands(): BaseCommand<unknown>[] {
-        return this.container.get(AvailableCommands).commands;
-    }
+  get availableCommands(): BaseCommand<unknown>[] {
+    return this.container.get(AvailableCommands).commands;
+  }
 }

@@ -8,4 +8,4 @@ npm run start -- password-verify --saltHex 1a938eb5e69424e1b8938db1bc2de751 --pa
 
 ```
 npm run start -- password-verify --saltFile salt.data --pass "4-GVpLMtKM=k7I" --hashPass "820lx+/FkqqnjafPkbM4OCO37qetXDppBoFulBE7L/phZOH78gtobesAw8UbuKtyPV9jQgJoGX5bowC+IGWnfw=="
-``` 
+```

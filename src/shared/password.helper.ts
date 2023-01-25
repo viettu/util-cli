@@ -1,8 +1,7 @@
-import { injectable } from "inversify";
+import {injectable} from 'inversify';
 import {readFileSync} from 'fs';
 import {pbkdf2} from 'crypto';
 import {promisify} from 'util';
-
 
 @injectable()
 export class PasswordHelper {
@@ -18,15 +17,15 @@ export class PasswordHelper {
     const encodedBuf = await this.pbkdf2Async(pass, salt, iterations, keyLen, algorithm);
     return encodedBuf.toString('base64');
   }
-  
+
   public convertHexToBuffer(hex: string, removeOx = true): Buffer {
     const normalizeHexString = this.normalizeHex(hex, removeOx);
 
     const binary = [];
-    for (let i=0; i<normalizeHexString.length/2; i++) {
-        const startPos = i*2;
-        const h = normalizeHexString.substring(startPos, startPos + 2);
-        binary[i] = parseInt(h, 16);        
+    for (let i = 0; i < normalizeHexString.length / 2; i++) {
+      const startPos = i * 2;
+      const h = normalizeHexString.substring(startPos, startPos + 2);
+      binary[i] = parseInt(h, 16);
     }
 
     return Buffer.of(...new Uint8Array(binary));
@@ -36,19 +35,19 @@ export class PasswordHelper {
     return readFileSync(filename);
   }
 
-  private normalizeHex(hex: string, remove0x: boolean) {
+  private normalizeHex(hex: string, remove0x: boolean): string {
     let input = hex.toUpperCase();
 
     if (remove0x) {
-      input = input.replace(/0x/gi, "");        
+      input = input.replace(/0x/gi, '');
     }
-    
+
     const currentInput = input;
-    input = input.replace(/[^A-Fa-f0-9]/g, "");
+    input = input.replace(/[^A-Fa-f0-9]/g, '');
     if (currentInput != input) {
-        console.log("Warning! Non-hex characters (including newlines) in input string ignored.");
+      console.log('Warning! Non-hex characters (including newlines) in input string ignored.');
     }
 
     return input;
-  } 
+  }
 }

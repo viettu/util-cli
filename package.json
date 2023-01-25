@@ -13,7 +13,14 @@
     "cmd:print-text": "node dist/util-cli print-text --text=TEST",
     "cmd:encrypt-config": "node dist/util-cli config --action=encrypt",
     "lint": "eslint . --ext .ts",
-    "lint:fix": "eslint . --ext .ts --fix"
+    "lint:fix": "eslint . --ext .ts --fix",
+    "format": "pretty-quick --staged",
+    "format:all": "prettier --write ./src"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run format"
+    }
   },
   "keywords": [
     "VietTu",
@@ -41,7 +48,12 @@
     "@vercel/ncc": "^0.24.1",
     "commander": "^9.0.0",
     "eslint": "^8.8.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "husky": "^8.0.3",
     "inversify": "^6.0.1",
+    "prettier": "^2.8.3",
+    "prettier-quick": "0.0.5",
     "reflect-metadata": "^0.1.13",
     "ts-node": "^9.1.1",
     "typescript": "^4.5.5"
