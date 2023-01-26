@@ -3,11 +3,11 @@ import {Command} from 'commander';
 import Axios, {AxiosInstance} from 'axios';
 import clipboard from 'clipboardy';
 
-import {BaseCommand} from '../command';
+import {BaseCommand} from '../base-command';
 import {Logger} from '../../shared/logger';
 import {ConfigHelper} from '../../shared/config.helper';
 
-type ENVs = 'dev' | 'staging' | 'sandbox' | 'pre-prod';
+type ENVs = 'dev' | 'staging' | 'sandbox' | 'pre-prod' | 'prod';
 
 export interface GetTokenParams {
   env: ENVs;

@@ -1,6 +1,6 @@
 import {injectable} from 'inversify';
 import {Command} from 'commander';
-import {BaseCommand} from '../command';
+import {BaseCommand} from '../base-command';
 import {Logger} from '../../shared/logger';
 import {PasswordHelper} from '../../shared/password.helper';
 
@@ -23,15 +23,15 @@ export class PasswordVerifyCommand extends BaseCommand<PasswordVerifyParams> {
       .option('--saltHex <text>', 'Salt in HEX characters')
       .option('--saltFile <text>', 'Salt file')
       .option('--pass <text>', 'Password to verify')
-      .option('--hashPass <text>', 'Hash password to verification');
+      .option('--hashPass <text>', 'Verify hashed password');
   }
 
-  async execute(params: PasswordVerifyParams): Promise<void> {
+  async execute(params: PasswordVerifyParams): Promise<boolean> {
     const {saltHex = '', saltFile = '', pass, hashPass} = params;
 
     if (!saltHex && !saltFile) {
       this.logger.error('Need provide salt');
-      return;
+      return false;
     }
 
     const saltBuffer = saltHex
@@ -44,5 +44,7 @@ export class PasswordVerifyCommand extends BaseCommand<PasswordVerifyParams> {
     } else {
       this.logger.error(`VALIDATE FAILED`, hash);
     }
+
+    return hash === hashPass;
   }
 }

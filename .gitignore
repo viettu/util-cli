@@ -5,3 +5,5 @@ public.key
 
 configs/tokens.enc.yaml
 configs/secret.enc.yaml
+
+coverage

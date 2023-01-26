@@ -9,7 +9,7 @@ export abstract class BaseCommand<T> {
     const command = this.configureCommand(rootCommand.command(this.commandName));
     command.action(async (cmdObj: T) => {
       try {
-        return await this.execute(cmdObj);
+        await this.execute(cmdObj);
       } catch (err) {
         console.log(`${err}`);
         process.exit(1);
@@ -31,5 +31,5 @@ export abstract class BaseCommand<T> {
    * Execute command
    * @param cmdObj
    */
-  abstract execute(cmdObj: T): Promise<void>;
+  abstract execute(cmdObj: T): Promise<unknown>;
 }

@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import {Container} from 'inversify';
 import {AvailableCommands} from './commands/available-commands';
-import {BaseCommand} from './commands/command';
+import {BaseCommand} from './commands/base-command';
 
 export class IocContainer {
   private container: Container;
