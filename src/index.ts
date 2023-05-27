@@ -12,7 +12,7 @@ import {IocContainer} from './ioc-container';
     cmd.registerCommand(program);
   });
 
-  // program.action(() => {})
+  program.action(() => {})
 
   program.parseAsync(process.argv);
 })();

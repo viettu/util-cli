@@ -1,3 +1,12 @@
+// import { Container } from "inversify";
+import { Logger } from "../../shared/logger";
+import { IocContainer } from "../../ioc-container";
+import { PasswordVerifyCommand } from "./password-verify";
+import { PasswordHelper } from "./password-verify.helper";
+
+jest.mock('../../shared/logger');
+jest.mock('./password-verify.helper');
+
 describe('password-verify', () => {
   // const mockLogger = () => ({
   //   error: jest.fn(),
@@ -10,16 +19,27 @@ describe('password-verify', () => {
   //   hashPassword: jest.fn()
   // })
 
-  // const container = new Container();
-  // beforeAll(() => {
-  //   container.bind(Logger).to({
-  //     error: jest.fn(),
-  //     success: jest.fn()
-  //   })
-  // })
+  let mockContainer: IocContainer;
+  beforeAll(() => {
+    mockContainer = new IocContainer();
+    mockContainer.container.unbind(Logger);
+    mockContainer.container.unbind(PasswordHelper);
+
+    mockContainer.container.bind<any>(Logger).toConstantValue({
+      error: jest.fn(),
+      success: jest.fn()
+    });
+
+    mockContainer.container.bind<any>(PasswordHelper).toConstantValue({
+      convertHexToBuffer: jest.fn(),
+      readSaltFile: jest.fn(),
+      hashPassword: jest.fn()
+    });
+  })
 
   it('should verify password with salt hex', () => {
-    // const command = new PasswordVerifyCommand(mockLogger, mockPasswordHelper);
+    let passwordVerify = mockContainer.container.get<PasswordVerifyCommand>(PasswordVerifyCommand);
+    console.log(passwordVerify);
     expect(1).toBeTruthy();
   });
 });

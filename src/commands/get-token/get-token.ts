@@ -3,9 +3,9 @@ import {Command} from 'commander';
 import Axios, {AxiosInstance} from 'axios';
 import clipboard from 'clipboardy';
 
-import {BaseCommand} from '../base-command';
+import {BaseCommand} from '../base';
 import {Logger} from '../../shared/logger';
-import {ConfigHelper} from '../../shared/config.helper';
+import {ConfigHelper} from '../../shared/config';
 
 type ENVs = 'dev' | 'staging' | 'sandbox' | 'pre-prod' | 'prod';
 
@@ -29,8 +29,8 @@ export class GetTokenCommand extends BaseCommand<GetTokenParams> {
 
   configureCommand(command: Command): Command {
     return command
-      .description('Get tokens')
-      .option('--env <text>', 'Environment dev|pre-prod|staging|sandbox|prod');
+      .description('Get tokens and copy access token to clipboard')
+      .requiredOption('e, --env <text>', 'environment must be one of dev|pre-prod|staging|sandbox|prod');
   }
 
   private async getToken(env: ENVs): Promise<Tokens> {

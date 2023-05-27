@@ -1,6 +1,6 @@
 import {injectable} from 'inversify';
 import chalk from 'chalk';
-import {ConfigHelper} from './config.helper';
+import {ConfigHelper} from './config';
 
 type Level = 'error' | 'warn' | 'info' | 'debug' | 'trace';
 @injectable()

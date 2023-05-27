@@ -1,8 +1,8 @@
 import {injectable} from 'inversify';
 import {Command} from 'commander';
-import {BaseCommand} from '../base-command';
+import {BaseCommand} from '../base';
 import {Logger} from '../../shared/logger';
-import {PasswordHelper} from '../../shared/password.helper';
+import {PasswordHelper} from './password-verify.helper';
 
 export interface PasswordVerifyParams {
   saltHex?: string;
