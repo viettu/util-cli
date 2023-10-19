@@ -40,7 +40,7 @@ export class PasswordVerifyCommand extends BaseCommand<PasswordVerifyParams> {
 
     const hash = await this.passwordHelper.hashPassword(pass, saltBuffer, 27500, 64, 'sha256');
     if (hash === hashPass) {
-      this.logger.success(`VALIDATE SUCCESS`);
+      this.logger.info(`VALIDATE SUCCESS`);
     } else {
       this.logger.error(`VALIDATE FAILED`, hash);
     }

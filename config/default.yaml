@@ -1,0 +1,11 @@
+apiUrl: api-dev.setel.com
+# dev:
+#   apiUrl: api-dev.setel.com
+# staging:
+#   apiUrl: api-staging.setel.com
+# sandbox:
+#   apiUrl: api.sandbox.setel.my
+# pre-prod:
+#   apiUrl: api-pre-prod.setel.com
+# prod:
+#   apiUrl: api-prod.setel.com

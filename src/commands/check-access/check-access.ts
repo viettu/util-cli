@@ -4,7 +4,8 @@ import * as jsonwebtoken from 'jsonwebtoken';
 
 import {BaseCommand} from '../base';
 import {Logger} from '../../shared/logger';
-import {ConfigHelper} from '../../shared/config';
+import {ConfigHelper} from '../../shared/config.helper';
+import {SecretFiles} from '../../shared/constants';
 
 type ENVs = 'dev' | 'staging' | 'sandbox' | 'pre-prod' | 'prod';
 
@@ -43,12 +44,12 @@ export class CheckAccessCommand extends BaseCommand<GetTokenParams> {
   }
 
   private async verifyToken(env: ENVs, token: string): Promise<any> {
-    const {publicKey} = this.config.getSecretValue('tokens.enc.yaml', `${env}`);
+    const {publicKey} = this.config.getSecretValue(SecretFiles.Tokens, `${env}`);
     const pem = this.createPEM(publicKey, false);
-    
+
     return new Promise((resolve, rejects) => {
       jsonwebtoken.verify(token, pem, (err, decoded) => {
-        if(err) {
+        if (err) {
           rejects(err);
         } else {
           resolve(decoded);
@@ -62,8 +63,8 @@ export class CheckAccessCommand extends BaseCommand<GetTokenParams> {
     console.log(params);
     try {
       const data = await this.verifyToken(env, token);
-      this.logger.success("SUCCESS", data);
-    } catch(err) {
+      this.logger.info('SUCCESS', data);
+    } catch (err) {
       console.log(err);
     }
   }

@@ -3,19 +3,25 @@ import yaml from 'js-yaml';
 import {existsSync, readFileSync} from 'fs';
 import execa from 'execa';
 import {get} from 'lodash';
+import appConfig from 'config';
+import {SecretFiles} from './constants';
 
 @injectable()
 export class ConfigHelper {
   private readonly configCollection: {[index: string]: unknown} = {};
 
-  private loadConfig(configFileName: string, isEncrypted: boolean): any {
-    const configPath = `${process.cwd()}/configs/${configFileName}`;
+  get apiUrl(): string {
+    return appConfig.get('apiUrl');
+  }
+
+  private loadConfig(file: SecretFiles, isEncrypted: boolean): any {
+    const configPath = `${process.cwd()}/config/${file}`;
 
     if (!existsSync(configPath)) {
       throw new Error(`File ${configPath} is not found`);
     }
 
-    let configData = this.configCollection[configFileName];
+    let configData = this.configCollection[file];
     if (configData) {
       return configData;
     }
@@ -27,17 +33,12 @@ export class ConfigHelper {
       configData = yaml.load(readFileSync(configPath, {encoding: 'utf8'}));
     }
 
-    this.configCollection[configFileName] = configData;
+    this.configCollection[file] = configData;
     return configData;
   }
 
-  public getValue(configFileName: string, propertyPath: string): any {
-    const configValues = this.loadConfig(configFileName, false);
-    return get(configValues, propertyPath);
-  }
-
-  public getSecretValue(configFileName: string, propertyPath: string): any {
-    const configValues = this.loadConfig(configFileName, true);
+  public getSecretValue(file: SecretFiles, propertyPath: string): any {
+    const configValues = this.loadConfig(file, true);
     return get(configValues, propertyPath);
   }
 }

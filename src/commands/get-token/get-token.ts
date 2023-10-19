@@ -1,16 +1,12 @@
 import {injectable} from 'inversify';
 import {Command} from 'commander';
-import Axios, {AxiosInstance} from 'axios';
 import clipboard from 'clipboardy';
 
 import {BaseCommand} from '../base';
-import {Logger} from '../../shared/logger';
-import {ConfigHelper} from '../../shared/config';
-
-type ENVs = 'dev' | 'staging' | 'sandbox' | 'pre-prod' | 'prod';
+import {HttpService} from '../../shared/http.service';
 
 export interface GetTokenParams {
-  env: ENVs;
+  clipboard: boolean;
 }
 
 export interface Tokens {
@@ -22,29 +18,24 @@ export interface Tokens {
 
 @injectable()
 export class GetTokenCommand extends BaseCommand<GetTokenParams> {
-  private readonly axiosInstance: AxiosInstance = Axios;
-  constructor(private logger: Logger, private readonly config: ConfigHelper) {
+  constructor(private readonly httpService: HttpService) {
     super('get-token');
   }
 
   configureCommand(command: Command): Command {
     return command
       .description('Get tokens and copy access token to clipboard')
-      .requiredOption('e, --env <text>', 'environment must be one of dev|pre-prod|staging|sandbox|prod');
-  }
-
-  private async getToken(env: ENVs): Promise<Tokens> {
-    const {domain, user, password} = this.config.getSecretValue('tokens.enc.yaml', `${env}`);
-    const url = `https://${domain}/api/iam/setel-external-services/auth/login`;
-    const response = await this.axiosInstance.post(url, {identifier: user, password});
-    return response.data;
+      .option('-c, --clipboard', 'Copy to clipboard');
   }
 
   async execute(params: GetTokenParams): Promise<any> {
-    const {env = 'dev'} = params;
-    const tokens = await this.getToken(env);
-    clipboard.writeSync(tokens.accessToken);
-    this.logger.success(`${clipboard.readSync()}`);
+    const tokens = await this.httpService.getEngineeringToken();
+    if (params.clipboard) {
+      clipboard.writeSync(tokens.accessToken);
+      console.log(`${clipboard.readSync()}`);
+    } else {
+      console.log(`${tokens.accessToken}`);
+    }
     return tokens;
   }
 }

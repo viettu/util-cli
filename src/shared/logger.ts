@@ -1,62 +1,26 @@
 import {injectable} from 'inversify';
-import chalk from 'chalk';
-import {ConfigHelper} from './config';
-
-type Level = 'error' | 'warn' | 'info' | 'debug' | 'trace';
+import log from 'loglevel';
 @injectable()
 export class Logger {
-  private levelsConfig: string[] | undefined;
-  constructor(private readonly config: ConfigHelper) {}
+  constructor() {}
 
-  private isAcceptLevel(level: Level): boolean {
-    if (!this.levelsConfig) {
-      this.levelsConfig = this.config.getValue('config.yaml', 'logging.levels') || [];
-    }
-    return !!this.levelsConfig?.includes(level);
+  debug(...args: any[]): void {
+    log.debug(args);
   }
 
-  private log(level: Level, message: string, ...args: any[]): void {
-    if (this.isAcceptLevel(level)) {
-      switch (level) {
-        case 'debug':
-          console.debug(message, ...args);
-          break;
-        case 'info':
-          console.info(message, ...args);
-          break;
-        case 'error':
-          console.error(message, ...args);
-          break;
-        case 'warn':
-          console.warn(message, ...args);
-          break;
-        case 'trace':
-          console.trace(message, ...args);
-          break;
-        default:
-          console.debug(message, ...args);
-          break;
-      }
-    }
+  error(...args: any[]): void {
+    log.error(args);
   }
 
-  debug(text: string, ...args: any[]): void {
-    this.log('debug', chalk.greenBright(text), ...args);
+  info(...args: any[]): void {
+    log.info(args);
   }
 
-  error(text: string, ...args: any[]): void {
-    this.log('error', chalk.red(text), ...args);
+  warn(...args: any[]): void {
+    log.warn(args);
   }
 
-  info(text: string, ...args: any[]): void {
-    this.log('info', chalk.blue(text), ...args);
-  }
-
-  warn(text: string, ...args: any[]): void {
-    this.log('warn', chalk.blue(text), ...args);
-  }
-
-  success(text: string, ...args: any[]): void {
-    this.log('info', chalk.green(text), ...args);
+  trace(...args: any[]): void {
+    log.trace(args);
   }
 }
