@@ -1,9 +1,14 @@
 import {injectable} from 'inversify';
 import commander from 'commander';
+import {LogService} from '../shared/logger';
 
 @injectable()
 export abstract class BaseCommand<T> {
-  constructor(private commandName: string) {}
+  protected readonly logger: LogService;
+  protected commandName = '';
+  constructor() {
+    this.logger = new LogService();
+  }
 
   registerCommand(rootCommand: commander.Command): void {
     const command = this.configureCommand(rootCommand.command(this.commandName));

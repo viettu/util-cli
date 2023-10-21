@@ -4,6 +4,7 @@ import {PasswordVerifyCommand} from './password-verify/password-verify';
 import {GetTokenCommand} from './get-token/get-token';
 import {CheckAccessCommand} from './check-access/check-access';
 import {ResetPasswordCommand} from './reset-passwords/reset-password';
+import {DummyCommand} from './dummy/dummy';
 
 @injectable()
 export class AvailableCommands {
@@ -13,7 +14,8 @@ export class AvailableCommands {
     getToken: GetTokenCommand,
     checkAccess: CheckAccessCommand,
     resetPassword: ResetPasswordCommand,
+    dummy: DummyCommand,
   ) {
-    this.commands = [passwordVerify, getToken, checkAccess, resetPassword];
+    this.commands = [passwordVerify, getToken, checkAccess, resetPassword, dummy];
   }
 }

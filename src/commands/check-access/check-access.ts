@@ -3,7 +3,6 @@ import {Command} from 'commander';
 import * as jsonwebtoken from 'jsonwebtoken';
 
 import {BaseCommand} from '../base';
-import {Logger} from '../../shared/logger';
 import {ConfigHelper} from '../../shared/config.helper';
 import {SecretFiles} from '../../shared/constants';
 
@@ -16,8 +15,9 @@ export interface GetTokenParams {
 
 @injectable()
 export class CheckAccessCommand extends BaseCommand<GetTokenParams> {
-  constructor(private logger: Logger, private readonly config: ConfigHelper) {
-    super('check-access');
+  constructor(private readonly config: ConfigHelper) {
+    super();
+    this.commandName = 'check-access';
   }
 
   configureCommand(command: Command): Command {
@@ -60,12 +60,11 @@ export class CheckAccessCommand extends BaseCommand<GetTokenParams> {
 
   async execute(params: GetTokenParams): Promise<any> {
     const {env = 'dev', token} = params;
-    console.log(params);
     try {
       const data = await this.verifyToken(env, token);
       this.logger.info('SUCCESS', data);
     } catch (err) {
-      console.log(err);
+      this.logger.error(err);
     }
   }
 }

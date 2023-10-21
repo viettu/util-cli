@@ -1,7 +1,6 @@
 import {injectable} from 'inversify';
 import {Command} from 'commander';
 import {BaseCommand} from '../base';
-import {Logger} from '../../shared/logger';
 import {PasswordHelper} from './password-verify.helper';
 
 export interface PasswordVerifyParams {
@@ -13,8 +12,9 @@ export interface PasswordVerifyParams {
 
 @injectable()
 export class PasswordVerifyCommand extends BaseCommand<PasswordVerifyParams> {
-  constructor(private logger: Logger, private readonly passwordHelper: PasswordHelper) {
-    super('password-verify');
+  constructor(private readonly passwordHelper: PasswordHelper) {
+    super();
+    this.commandName = 'password-verify';
   }
 
   configureCommand(command: Command): Command {

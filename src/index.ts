@@ -8,6 +8,11 @@ async function main(): Promise<void> {
     message: 'Hey Eric, what can I do to help you?',
     choices: [
       {
+        name: 'Dummy',
+        value: `dummy`,
+        description: 'For testing purpose',
+      },
+      {
         name: 'Get token',
         value: `get-token`,
         description: 'Get access token for different environments',

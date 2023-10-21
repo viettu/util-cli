@@ -19,7 +19,8 @@ export interface Tokens {
 @injectable()
 export class GetTokenCommand extends BaseCommand<GetTokenParams> {
   constructor(private readonly httpService: HttpService) {
-    super('get-token');
+    super();
+    this.commandName = 'get-token';
   }
 
   configureCommand(command: Command): Command {
@@ -32,9 +33,9 @@ export class GetTokenCommand extends BaseCommand<GetTokenParams> {
     const tokens = await this.httpService.getEngineeringToken();
     if (params.clipboard) {
       clipboard.writeSync(tokens.accessToken);
-      console.log(`${clipboard.readSync()}`);
+      this.logger.info(`${clipboard.readSync()}`);
     } else {
-      console.log(`${tokens.accessToken}`);
+      this.logger.info(`${tokens.accessToken}`);
     }
     return tokens;
   }

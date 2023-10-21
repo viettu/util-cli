@@ -11,7 +11,8 @@ export class ResetPasswordCommand extends BaseCommand<any> {
     private readonly iamService: IamService,
     private readonly configHelper: ConfigHelper,
   ) {
-    super('reset-password');
+    super();
+    this.commandName = 'reset-password';
   }
 
   configureCommand(command: Command): Command {

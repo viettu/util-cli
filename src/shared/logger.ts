@@ -1,26 +1,61 @@
-import {injectable} from 'inversify';
-import log from 'loglevel';
-@injectable()
-export class Logger {
-  constructor() {}
+import pino, {Logger as PinoLogger} from 'pino';
 
-  debug(...args: any[]): void {
-    log.debug(args);
+type LoggerFn =
+  | ((msg: string, ...args: any[]) => void)
+  | ((obj: object, msg?: string, ...args: any[]) => void);
+
+export class LogService {
+  private readonly logger: PinoLogger;
+  constructor() {
+    this.logger = pino({
+      transport: {
+        target: 'pino-pretty',
+        options: {
+          colorize: true,
+        },
+      },
+    });
   }
 
-  error(...args: any[]): void {
-    log.error(args);
+  trace(msg: string, ...args: any[]): void;
+  trace(obj: unknown, msg?: string, ...args: any[]): void;
+  trace(...args: Parameters<LoggerFn>) {
+    this.call('trace', ...args);
   }
 
-  info(...args: any[]): void {
-    log.info(args);
+  debug(msg: string, ...args: any[]): void;
+  debug(obj: unknown, msg?: string, ...args: any[]): void;
+  debug(...args: Parameters<LoggerFn>) {
+    this.call('debug', ...args);
   }
 
-  warn(...args: any[]): void {
-    log.warn(args);
+  info(msg: string, ...args: any[]): void;
+  info(obj: unknown, msg?: string, ...args: any[]): void;
+  info(...args: Parameters<LoggerFn>) {
+    this.call('info', ...args);
   }
 
-  trace(...args: any[]): void {
-    log.trace(args);
+  warn(msg: string, ...args: any[]): void;
+  warn(obj: unknown, msg?: string, ...args: any[]): void;
+  warn(...args: Parameters<LoggerFn>) {
+    this.call('warn', ...args);
+  }
+
+  error(msg: string, ...args: any[]): void;
+  error(obj: unknown, msg?: string, ...args: any[]): void;
+  error(...args: Parameters<LoggerFn>) {
+    this.call('error', ...args);
+  }
+
+  fatal(msg: string, ...args: any[]): void;
+  fatal(obj: unknown, msg?: string, ...args: any[]): void;
+  fatal(...args: Parameters<LoggerFn>) {
+    this.call('fatal', ...args);
+  }
+
+  private call(method: pino.Level, ...args: Parameters<LoggerFn>) {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore args are union of tuple types
+    this.logger[method](...args);
   }
 }
